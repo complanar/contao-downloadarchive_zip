@@ -1,0 +1,56 @@
+
+<section class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+<?php if ($this->headline): ?>
+<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+<?php endif; ?>
+
+<?php if(is_array($this->arrFiles)): $even = 1; ?>
+<table class="downloadarchiveTable block">
+<?php foreach ($this->arrFiles as $key => $row): ?>
+  <tr class="downloadarchiveItem <?php echo $row['css']; ?>">
+    <td class="icon"><a class="download" title="<?php echo $row['title']; ?>" href="<?php echo $row['href']; ?>"><img src="<?php echo $row['icon']; ?>"<?php echo $row['iconSize']; ?> alt="<?php echo $row['title']; ?>" class="mime_icon"></a></td>
+    <td class="title description">
+      <span class="title"><?php echo $row['title']; ?></span>
+			<?php if ($row['addImage']): ?>
+			<figure class="image_container"<?php if ($row['imagemargin'] || $row['floating']): ?> style="<?php echo $row['imagemargin'] . $row['floating']; ?>"<?php endif; ?>>
+				<?php if ($row['useImage'] == 1): ?><a href="<?php echo $row['imgHref']; ?>" title="<?php echo $row['alt']; ?>" rel="lightbox">
+				<?php elseif ($row['useImage'] == 2): ?>
+				<a href="<?php echo $row['href']; ?>" title="<?php echo $row['title']; ?>">
+				<?php endif; ?>
+					<img src="<?php echo $row['imgSrc']; ?>"<?php echo $row['imgSize']; ?> alt="<?php echo$row['alt']; ?>">
+				<?php if ($row['useImage'] == 1 || $row['useImage'] == 2): ?></a><?php endif; ?> 
+				<?php if ($row['caption']): ?>
+					<figcaption class="caption"><?php echo$row['caption']; ?></figcaption>
+				<?php endif; ?>
+				</figure>
+			<?php endif; ?>
+      <?php if($row['description'] != ""): ?>
+        <div class="description"><?php echo $row['description']; ?></div>
+      <?php endif; ?>
+      </td>
+    <?php if($this->showMeta):
+       if(!$this->hideDate): ?>
+    <td class="date"><?php echo $row['ctimeformated']; ?></td>
+       <?php endif; ?>
+    <td class="filesize"><?php echo $row['filesize']; ?></td>
+    <?php endif; ?>
+    <td class="download"><a class="download" title="Download &quot;<?php echo $row['title']; ?>&quot;" href="<?php echo $row['href']; ?>"><img src="<?php echo $this->downloadIcon['src']; ?>"<?php echo $this->downloadIcon['iconSize']; ?> alt="Download" class="download_icon"></a></td>
+  </tr>
+<?php endforeach; ?>
+</table>
+
+<?php echo $this->pagination; ?>
+
+<?php if ($this->downloadZip): ?>
+<div class="downloadarchiveZip">
+  <a href="<?php echo $this->zipFile['href']; ?>" title="<?php echo $this->zipText ?>"><img src="<?php echo $this->downloadIcon['src']; ?>"<?php echo $this->downloadIcon['iconSize']; ?> alt="Download" class="download_icon"> <?php echo $this->zipText; ?></a>
+  <?php if($this->showMeta) : ?>(<span class="filesize"><?php echo $this->zipFile['filesize']; ?>)</span><?php endif; ?> 
+</div>
+<?php endif; ?>
+
+<?php else: ?>
+<p class="message warning">
+   <?php echo $this->arrFiles; ?>
+</p>
+<?php endif; ?>
+</section>
